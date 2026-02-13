@@ -5,8 +5,6 @@
   <title>2026 Karaağaç Kurban</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#1a472a" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#1a472a" />
 
   <style>
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -14,15 +12,21 @@
     .landing { text-align: center; padding: 24px; max-width: 400px; }
     .landing-brand { font-size: 2rem; font-weight: 800; color: #1a472a; letter-spacing: 0.06em; }
     .landing-slogan { font-size: 1.1rem; font-weight: 500; color: #2d6a3e; margin-top: 16px; font-style: italic; line-height: 1.5; }
-    .landing-btn { display: inline-block; margin-top: 48px; padding: 18px 36px; background: linear-gradient(135deg, #1a472a, #2d6a3e); color: #fff; text-decoration: none; font-size: 1.1rem; font-weight: 600; border-radius: 14px; box-shadow: 0 4px 20px rgba(26,71,42,0.3); transition: opacity 0.2s, transform 0.15s; }
+    .landing-buttons { margin-top: 48px; display: flex; flex-direction: column; gap: 14px; width: 100%; max-width: 280px; margin-left: auto; margin-right: auto; }
+    .landing-btn { display: block; padding: 18px 36px; color: #fff; text-decoration: none; font-size: 1.1rem; font-weight: 600; border-radius: 14px; text-align: center; transition: opacity 0.2s, transform 0.15s; }
     .landing-btn:hover { opacity: 0.92; transform: translateY(-2px); }
+    .landing-btn-kurban { background: linear-gradient(135deg, #1a472a, #2d6a3e); box-shadow: 0 4px 20px rgba(26,71,42,0.3); }
+    .landing-btn-umre { background: linear-gradient(135deg, #0c5c6c, #0e7490); box-shadow: 0 4px 20px rgba(12,92,108,0.3); }
   </style>
 </head>
 <body>
   <div class="landing">
     <h1 class="landing-brand">Karaağaç Kurban</h1>
     <p class="landing-slogan">Bu Kurbanda Da Emanetiniz Emin Ellerde</p>
-    <a href="on-kayit.html" class="landing-btn">Ön Kayıt Formu</a>
+    <div class="landing-buttons">
+      <a href="on-kayit.html" class="landing-btn landing-btn-kurban">Kurban Ön Kayıt</a>
+      <a href="umre-kayit.html" class="landing-btn landing-btn-umre">Umre Ön Kayıt</a>
+    </div>
   </div>
 </body>
 </html>
