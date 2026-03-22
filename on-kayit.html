@@ -127,6 +127,7 @@
     .form-group select { cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%231a472a' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; padding-right: 40px; }
     .form-group textarea { min-height: 100px; resize: vertical; overflow-wrap: break-word; }
     .form-group .hint { font-size: 0.8rem; color: #6b7280; margin-top: 6px; }
+    .form-static-value { padding: 16px 18px; background: rgba(26,71,42,0.06); border: 2px solid #e0e8e4; border-radius: 14px; font-size: 1rem; font-weight: 600; color: #1a472a; }
 
     .btn-submit { width: 100%; padding: 18px 24px; margin: 20px 0 28px; background: linear-gradient(135deg, #1a472a, #2d6a3e); color: #fff; border: none; border-radius: 16px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: opacity 0.2s, transform 0.15s; box-shadow: 0 4px 20px rgba(26,71,42,0.35); }
     .btn-submit:hover { opacity: 0.92; }
@@ -246,16 +247,9 @@
           <input type="tel" id="telefon" name="telefon" required placeholder="05XX XXX XX XX" />
         </div>
         <div class="form-group">
-          <label for="adet">Kurban/Hisse Adedi *</label>
-          <input type="number" id="adet" name="adet" min="1" max="100" value="1" required />
-        </div>
-        <div class="form-group">
-          <label for="tur">Kurban Türü *</label>
-          <select id="tur" name="tur" required>
-            <option value="">Seçiniz</option>
-            <option value="kucukbas">Küçükbaş</option>
-            <option value="buyukbas">Büyükbaş</option>
-          </select>
+          <label>Kurban Türü</label>
+          <div class="form-static-value">Büyükbaş</div>
+          <input type="hidden" id="tur" name="tur" value="buyukbas" />
         </div>
         <div class="form-group">
           <label for="aciklama">Ek Not / Açıklama</label>
@@ -367,19 +361,10 @@
 
         const ad_soyad = document.getElementById('ad_soyad').value.trim();
         const telefon = document.getElementById('telefon').value.trim();
-        const adet = parseInt(document.getElementById('adet').value, 10) || 1;
-        const tur = document.getElementById('tur').value;
         const aciklama = document.getElementById('aciklama').value.trim() || null;
 
-        if (!ad_soyad || !telefon || !tur) {
+        if (!ad_soyad || !telefon) {
           showToast('Lütfen zorunlu alanları doldurun.', 'error');
-          btn.disabled = false;
-          btn.textContent = 'Ön Kayıt Gönder';
-          return;
-        }
-
-        if (adet < 1 || adet > 100) {
-          showToast('Kurban adedi 1-100 arasında olmalıdır.', 'error');
           btn.disabled = false;
           btn.textContent = 'Ön Kayıt Gönder';
           return;
@@ -398,14 +383,13 @@
             ref: ref || null,
             ad_soyad,
             telefon,
-            adet,
-            tur,
-            aciklama
+            tur: 'buyukbas',
+            aciklama,
+            kaynak: 'web sitesi'
           });
 
           if (error) throw error;
           document.getElementById('kurbanForm').reset();
-          document.getElementById('adet').value = 1;
           document.getElementById('successOverlay').classList.add('visible');
           window.scrollTo(0, 0);
         } catch (err) {

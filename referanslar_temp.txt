@@ -1,0 +1,15 @@
+﻿python : Traceback (most recent call last):
+At C:\Users\samet\AppData\Local\Temp\ps-script-75a6d377-caa9-47d9-adf4-50195b3675f9.ps1:78 char:45
++ cd "c:\Users\samet\Desktop\kurban-onkayit"; python -c "
++                                             ~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<string>", line 25, in <module>
+  File "C:\Users\samet\AppData\Local\Programs\Python\Python312\Lib\encodings\cp1254.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 0-4: character maps to <undefined>
+M³■teri Referanslar²m²z
+Y²llard²r bizi tercih eden ve memnuniyetlerini dile getiren de­erli m³■terilerimizin yorumlar², en b³y³k motivasyon kayna­²m²zd²r.
+1. Yorum  ¦slami Hassasiyet
