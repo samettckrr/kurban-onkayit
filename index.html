@@ -491,9 +491,21 @@
     }
     @media (max-width: 768px) {
       .hero-slogan-text { white-space: normal; }
-      .hero-slogan-text { white-space: normal; }
       .stat-item-text .stat-label { font-size: 0.95rem; }
-      .hero { padding: var(--space-2xl) var(--space-md); }
+      /* Hero yeşil alan — mobilde daha alçak */
+      .hero {
+        padding: var(--space-xl) var(--space-md) var(--space-lg);
+      }
+      .hero-slogan {
+        padding: var(--space-md) var(--space-md);
+      }
+      .hero-subtitle {
+        margin-top: var(--space-md);
+        font-size: 1rem;
+      }
+      .hero-cta {
+        margin-top: var(--space-lg);
+      }
     }
 
     /* === İSTATİSTİK SAYAÇLARI === */
@@ -1017,6 +1029,13 @@
       margin-bottom: 4px;
       padding-left: 4px;
     }
+    .hisse-card-status--soldout { color: #a62c2c; }
+    .hisse-card-limited-note {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #e65100;
+      margin: 0 0 10px 4px;
+    }
     .hisse-card-kapora { font-size: 0.9rem; color: #777; margin-bottom: 22px; font-style: italic; padding-left: 4px; }
     .hisse-card-btn {
       display: inline-flex;
@@ -1069,6 +1088,18 @@
     .hisse-card:nth-child(3) .hisse-card-btn::before { background: linear-gradient(135deg, var(--amber), var(--amber-light)); }
     .hisse-card:nth-child(3) .hisse-card-btn:hover { box-shadow: 0 8px 24px rgba(184,149,46,0.35); }
     .hisse-card:nth-child(4) .hisse-card-btn { color: var(--green-dark); border-color: var(--green-dark); }
+    .hisse-card-btn:disabled,
+    .hisse-card-btn:disabled:hover {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .hisse-card-btn:disabled:hover::before { opacity: 0; }
+    .hisse-card:nth-child(1) .hisse-card-btn:disabled:hover {
+      color: var(--green-mid);
+      border-color: var(--green-mid);
+    }
     @media (max-width: 992px) { .hisse-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; } #hisse-fiyatlari .hisse-wrap { padding: 0 24px; } }
     @media (max-width: 768px) {
       #hisse-fiyatlari .hisse-wrap {
@@ -1643,6 +1674,40 @@
       .footer-bottom::before { left: var(--space-md); right: var(--space-md); }
     }
     .scroll-progress { position: fixed; top: 0; left: 0; z-index: 9999; height: 2px; background: var(--green-mid); width: 0; }
+
+    /* Kurban afişleri — A3 dikey (≈297×420) ve benzeri; tek veya çoklu görsel */
+    #kurban-afisleri { scroll-margin-top: 100px; }
+    .afis-section {
+      background: #fff;
+    }
+    .afis-section .afis-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .afis-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: var(--space-xl);
+      justify-items: center;
+      align-items: start;
+    }
+    .afis-item {
+      margin: 0;
+      width: 100%;
+      max-width: 420px;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      background: var(--cream);
+      /* A3 oranı (~1 : 1.414) — CLS önleme; görsel farklı oranda olsa object-fit düzeltir */
+      aspect-ratio: 297 / 420;
+    }
+    .afis-item img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
   </style>
 </head>
 <body>
@@ -1715,6 +1780,28 @@
       </div>
     </div>
 
+    <div class="page-section afis-section">
+    <section id="kurban-afisleri" aria-label="Kurban afişi">
+      <div class="afis-wrap">
+        <div class="afis-grid" role="list">
+          <figure class="afis-item" role="listitem">
+            <img
+              src="img/kurban-afis-1.png"
+              alt="2026 Karaağaç Kurban duyuru afişi"
+              width="420"
+              height="594"
+              loading="lazy"
+              decoding="async"
+              onerror="this.closest('.afis-item').style.display='none'; var h=this.closest('.afis-section').querySelector('.afis-missing-hint'); if(h) h.removeAttribute('hidden');"
+            />
+          </figure>
+          <!-- İleride 2.–5. afiş: yukarıdaki <figure class="afis-item"> bloğunu kopyalayıp src ve alt güncelleyin -->
+        </div>
+        <p class="afis-missing-hint" hidden style="text-align:center;color:#666;font-size:0.95rem;margin-top:var(--space-md);">Afiş görseli yüklenemedi. <code style="font-size:0.9em;">img/kurban-afis-1.png</code> dosyasını ekleyin.</p>
+      </div>
+    </section>
+    </div>
+
     <div class="page-section">
     <section id="hisse-fiyatlari">
       <h2 class="section-title">Kurban Hisse Seçimi</h2>
@@ -1724,24 +1811,24 @@
           <div class="hisse-card-header">Ekonomik</div>
           <div class="hisse-card-body">
             <div class="hisse-card-grup">1. Grup</div>
-            <div class="hisse-card-kg">Kemikli Et: <strong>25–30 kg</strong></div>
+            <div class="hisse-card-kg"><strong>420kg - 500kg</strong> aralığında</div>
             <div class="hisse-card-hisse">7 kişilik hisse grubu</div>
+            <div class="hisse-card-limited-note">Sınırlı sayıda</div>
             <ul class="hisse-card-features">
               <li>Yerli Besi</li>
               <li>Kapak Atma Garantisi</li>
               <li>Birinci Gün Teslimat</li>
               <li>7 Kefeli Hassas Terazi</li>
             </ul>
-            <div class="hisse-card-status">Ön Kayıt Açık</div>
-            <div class="hisse-card-kapora">Kapora ile sıranı ayırt</div>
-            <button type="button" class="hisse-card-btn" onclick="openHisseModal(1,'Ekonomik','1. Grup – 25–30 kg')">Kayıt Ol<span class="btn-arrow">→</span></button>
+            <div class="hisse-card-status hisse-card-status--soldout">Tükendi</div>
+            <button type="button" class="hisse-card-btn" disabled aria-disabled="true">Kayıt Ol<span class="btn-arrow">→</span></button>
           </div>
         </div>
         <div class="hisse-card">
           <div class="hisse-card-header">Verimli</div>
           <div class="hisse-card-body">
             <div class="hisse-card-grup">2. Grup</div>
-            <div class="hisse-card-kg">Kemikli Et: <strong>30–35 kg</strong></div>
+            <div class="hisse-card-kg"><strong>500kg - 580kg</strong> aralığında</div>
             <div class="hisse-card-hisse">7 kişilik hisse grubu</div>
             <ul class="hisse-card-features">
               <li>Yerli Besi</li>
@@ -1751,7 +1838,7 @@
             </ul>
             <div class="hisse-card-status">Ön Kayıt Açık</div>
             <div class="hisse-card-kapora">Kapora ile sıranı ayırt</div>
-            <button type="button" class="hisse-card-btn" onclick="openHisseModal(2,'Verimli','2. Grup – 30–35 kg')">Kayıt Ol<span class="btn-arrow">→</span></button>
+            <button type="button" class="hisse-card-btn" onclick="openHisseModal(2,'Verimli','2. Grup – 500kg - 580kg aralığında')">Kayıt Ol<span class="btn-arrow">→</span></button>
           </div>
         </div>
         <div class="hisse-card">
@@ -1759,7 +1846,7 @@
           <div class="hisse-card-header">Aile Paketi</div>
           <div class="hisse-card-body">
             <div class="hisse-card-grup">3. Grup</div>
-            <div class="hisse-card-kg">Kemikli Et: <strong>35–40 kg</strong></div>
+            <div class="hisse-card-kg"><strong>580kg - 700kg</strong> aralığında</div>
             <div class="hisse-card-hisse">7 kişilik hisse grubu</div>
             <ul class="hisse-card-features">
               <li>Yerli Besi</li>
@@ -1769,14 +1856,14 @@
             </ul>
             <div class="hisse-card-status">Ön Kayıt Açık</div>
             <div class="hisse-card-kapora">Kapora ile sıranı ayırt</div>
-            <button type="button" class="hisse-card-btn" onclick="openHisseModal(3,'Aile Paketi','3. Grup – 35–40 kg')">Kayıt Ol<span class="btn-arrow">→</span></button>
+            <button type="button" class="hisse-card-btn" onclick="openHisseModal(3,'Aile Paketi','3. Grup – 580kg - 700kg aralığında')">Kayıt Ol<span class="btn-arrow">→</span></button>
           </div>
         </div>
         <div class="hisse-card">
           <div class="hisse-card-header">Geniş Aile Paketi</div>
           <div class="hisse-card-body">
             <div class="hisse-card-grup">4. Grup</div>
-            <div class="hisse-card-kg">Kemikli Et: <strong>45+ kg</strong></div>
+            <div class="hisse-card-kg"><strong>700kg ve üzeri</strong></div>
             <div class="hisse-card-hisse">7 kişilik hisse grubu</div>
             <ul class="hisse-card-features">
               <li>Yerli Besi</li>
@@ -1786,7 +1873,7 @@
             </ul>
             <div class="hisse-card-status">Ön Kayıt Açık</div>
             <div class="hisse-card-kapora">Kapora ile sıranı ayırt</div>
-            <button type="button" class="hisse-card-btn" onclick="openHisseModal(4,'Geniş Aile Paketi','4. Grup – 45+ kg')">Kayıt Ol<span class="btn-arrow">→</span></button>
+            <button type="button" class="hisse-card-btn" onclick="openHisseModal(4,'Geniş Aile Paketi','4. Grup – 700kg ve üzeri')">Kayıt Ol<span class="btn-arrow">→</span></button>
           </div>
         </div>
       </div>
@@ -1988,6 +2075,7 @@
       <div class="footer-nav">
         <h4>Hızlı Menü</h4>
         <ul>
+          <li><a href="#kurban-afisleri">Kurban Afişleri</a></li>
           <li><a href="#hisse-fiyatlari">Hisse Fiyatları</a></li>
           <li><a href="#randevu">Randevu Al</a></li>
           <li><a href="on-kayit.html">Kurban Ön Kayıt</a></li>
