@@ -77,7 +77,7 @@
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; overflow-x: hidden; }
       *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-      .referans-track { animation: none; }
+      .referans-scroller { scroll-behavior: auto; }
       .logo-wrap .logo-sep { animation: none; opacity: 0.7; }
       .btn-register::before, .btn-register::after { animation: none; }
       .hero-slogan-text, .hero-subtitle, .hero-cta { opacity: 1 !important; }
@@ -1314,36 +1314,73 @@
       .randevu-btn { margin-top: 0; padding: 14px 20px; font-size: 1rem; }
     }
 
-    /* === MÜŞTERİ REFERANSLARI === */
+    /* === MÜŞTERİ REFERANSLARI (yatay kaydırma + butonlar; sonsuz animasyon yok) === */
     #referanslar { scroll-margin-top: 100px; }
     .referanslar { margin-bottom: 0; }
     .referans-wrap {
       max-width: 100%;
       margin: 0 auto;
       padding: 0 var(--space-lg);
-      overflow: hidden;
     }
+    .referans-carousel {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      max-width: 100%;
+    }
+    .referans-scroller {
+      flex: 1;
+      min-width: 0;
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      scroll-behavior: smooth;
+      padding: var(--space-md) 0 8px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(26,71,42,0.35) rgba(26,71,42,0.08);
+      touch-action: pan-x;
+    }
+    .referans-scroller::-webkit-scrollbar { height: 8px; }
+    .referans-scroller::-webkit-scrollbar-track { background: rgba(26,71,42,0.06); border-radius: 4px; }
+    .referans-scroller::-webkit-scrollbar-thumb { background: rgba(26,71,42,0.28); border-radius: 4px; }
+    .referans-scroller:focus-visible { outline: 2px solid var(--green-dark); outline-offset: 4px; }
     .referans-track {
       display: flex;
       flex-wrap: nowrap;
-      gap: 0;
-      padding: var(--space-md) 0;
-      animation: referansMarquee 120s linear infinite;
-      width: max-content;
-    }
-    .referans-track:hover { animation-play-state: paused; }
-    @keyframes referansMarquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    .referans-set {
-      display: flex;
-      flex-wrap: nowrap;
       gap: var(--space-lg);
+      width: max-content;
+      padding: 4px 2px 12px;
+    }
+    .referans-btn {
       flex-shrink: 0;
-      padding-right: var(--space-lg);
+      width: 46px;
+      height: 46px;
+      padding: 0;
+      border: 2px solid var(--green-mid);
+      border-radius: 50%;
+      background: #fff;
+      color: var(--green-dark);
+      cursor: pointer;
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, opacity 0.2s, border-color 0.2s;
+      box-shadow: var(--shadow-sm);
+    }
+    .referans-btn:hover:not(:disabled) {
+      background: rgba(45,90,61,0.08);
+      border-color: var(--green-dark);
+    }
+    .referans-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
     }
     .referans-card { 
+      position: relative;
       flex: 0 0 340px;
       min-width: 340px;
       min-height: 220px;
@@ -1364,6 +1401,8 @@
     @media (max-width: 768px) {
       .referans-card { flex: 0 0 300px; min-width: 300px; }
       .referans-wrap { padding: 0 var(--space-md); }
+      .referans-carousel { gap: 6px; }
+      .referans-btn { width: 42px; height: 42px; font-size: 1.3rem; }
     }
 
     /* === PROFESYONEL KURBAN KESİM SÜRECİ === */
@@ -1811,7 +1850,7 @@
           <div class="hisse-card-header">Ekonomik</div>
           <div class="hisse-card-body">
             <div class="hisse-card-grup">1. Grup</div>
-            <div class="hisse-card-kg"><strong>420kg - 500kg</strong> aralığında</div>
+            <div class="hisse-card-kg"><strong>30.000₺ - 35.000₺</strong> aralığında</div>
             <div class="hisse-card-hisse">7 kişilik hisse grubu</div>
             <div class="hisse-card-limited-note">Sınırlı sayıda</div>
             <ul class="hisse-card-features">
@@ -1828,7 +1867,7 @@
           <div class="hisse-card-header">Verimli</div>
           <div class="hisse-card-body">
             <div class="hisse-card-grup">2. Grup</div>
-            <div class="hisse-card-kg"><strong>500kg - 580kg</strong> aralığında</div>
+            <div class="hisse-card-kg"><strong>35.000₺ - 40.000₺</strong> aralığında</div>
             <div class="hisse-card-hisse">7 kişilik hisse grubu</div>
             <ul class="hisse-card-features">
               <li>Yerli Besi</li>
@@ -1838,7 +1877,7 @@
             </ul>
             <div class="hisse-card-status">Ön Kayıt Açık</div>
             <div class="hisse-card-kapora">Kapora ile sıranı ayırt</div>
-            <button type="button" class="hisse-card-btn" onclick="openHisseModal(2,'Verimli','2. Grup – 500kg - 580kg aralığında')">Kayıt Ol<span class="btn-arrow">→</span></button>
+            <button type="button" class="hisse-card-btn" onclick="openHisseModal(2,'Verimli','2. Grup – 35.000₺ - 40.000₺ aralığında')">Kayıt Ol<span class="btn-arrow">→</span></button>
           </div>
         </div>
         <div class="hisse-card">
@@ -1846,7 +1885,7 @@
           <div class="hisse-card-header">Aile Paketi</div>
           <div class="hisse-card-body">
             <div class="hisse-card-grup">3. Grup</div>
-            <div class="hisse-card-kg"><strong>580kg - 700kg</strong> aralığında</div>
+            <div class="hisse-card-kg"><strong>40.000₺ - 45.000₺</strong> aralığında</div>
             <div class="hisse-card-hisse">7 kişilik hisse grubu</div>
             <ul class="hisse-card-features">
               <li>Yerli Besi</li>
@@ -1856,14 +1895,14 @@
             </ul>
             <div class="hisse-card-status">Ön Kayıt Açık</div>
             <div class="hisse-card-kapora">Kapora ile sıranı ayırt</div>
-            <button type="button" class="hisse-card-btn" onclick="openHisseModal(3,'Aile Paketi','3. Grup – 580kg - 700kg aralığında')">Kayıt Ol<span class="btn-arrow">→</span></button>
+            <button type="button" class="hisse-card-btn" onclick="openHisseModal(3,'Aile Paketi','3. Grup – 40.000₺ - 45.000₺ aralığında')">Kayıt Ol<span class="btn-arrow">→</span></button>
           </div>
         </div>
         <div class="hisse-card">
           <div class="hisse-card-header">Geniş Aile Paketi</div>
           <div class="hisse-card-body">
             <div class="hisse-card-grup">4. Grup</div>
-            <div class="hisse-card-kg"><strong>700kg ve üzeri</strong></div>
+            <div class="hisse-card-kg"><strong>45.000₺ ve üzeri</strong></div>
             <div class="hisse-card-hisse">7 kişilik hisse grubu</div>
             <ul class="hisse-card-features">
               <li>Yerli Besi</li>
@@ -1873,7 +1912,7 @@
             </ul>
             <div class="hisse-card-status">Ön Kayıt Açık</div>
             <div class="hisse-card-kapora">Kapora ile sıranı ayırt</div>
-            <button type="button" class="hisse-card-btn" onclick="openHisseModal(4,'Geniş Aile Paketi','4. Grup – 700kg ve üzeri')">Kayıt Ol<span class="btn-arrow">→</span></button>
+            <button type="button" class="hisse-card-btn" onclick="openHisseModal(4,'Geniş Aile Paketi','4. Grup – 45.000₺ ve üzeri')">Kayıt Ol<span class="btn-arrow">→</span></button>
           </div>
         </div>
       </div>
@@ -1939,59 +1978,37 @@
     <section id="referanslar" class="referanslar">
       <h2 class="section-title">Müşteri Referanslarımız</h2>
       <div class="referans-wrap">
-      <div class="referans-track" aria-hidden="true">
-        <div class="referans-set">
-          <div class="referans-card">
-            <p class="referans-text">Kesim anında ismimizin zikredildiğini bizzat duydum. Vekalet süreci çok titiz yürütüldü, içim rahat etti. Allah kabul etsin, emeği geçen herkese teşekkürler.</p>
-            <div class="referans-meta"><span class="referans-avatar">K</span> K. Öztürk • Büyükçekmece</div>
-          </div>
-          <div class="referans-card">
-            <p class="referans-text">Yıllardır kurbanımızı Karaağaç Kurban'da kesiyoruz. Hem hijyen hem de güler yüzlü hizmetleri mükemmel. Tartım konusu çok şeffaf, içimiz rahat.</p>
-            <div class="referans-meta"><span class="referans-avatar">M</span> M. Demir • Hadımköy</div>
-          </div>
-          <div class="referans-card">
-            <p class="referans-text">İlk defa bu yıl denedik ve çok memnun kaldık. İslami kurallara harfiyen uyulması çok güven verdi.</p>
-            <div class="referans-meta"><span class="referans-avatar">F</span> F. Şahin • Çatalca</div>
-          </div>
-          <div class="referans-card">
-            <p class="referans-text">Vekalet vererek hissedar buluşmasına katıldık. Söz verdikleri gibi kapak atmış dana kesildi, Hazret-i Allah razı olsun.</p>
-            <div class="referans-meta"><span class="referans-avatar">H</span> H. Çelik • Avcılar</div>
-          </div>
-          <div class="referans-card">
-            <p class="referans-text">Etin parçalanması ve pay edilmesi çok adildi. Kasaplar titizlikle çalışıyordu. Teşekkür ederiz.</p>
-            <div class="referans-meta"><span class="referans-avatar">A</span> A. Kılıç • Beylikdüzü</div>
-          </div>
-          <div class="referans-card">
-            <p class="referans-text">Her sene fiyat ve performans olarak en iyisi. Organizasyon o kadar profesyonel ki, verilen saatte tesis adresine gittiğimizde etlerimiz hazır bekliyordu, hiç oyalanmadan işimizi hallettik.</p>
-            <div class="referans-meta"><span class="referans-avatar">M</span> M. Arslan • Arnavutköy</div>
-          </div>
-        </div>
-        <div class="referans-set" aria-hidden="true">
-          <div class="referans-card">
-            <p class="referans-text">Kesim anında ismimizin zikredildiğini bizzat duydum. Vekalet süreci çok titiz yürütüldü, içim rahat etti. Allah kabul etsin, emeği geçen herkese teşekkürler.</p>
-            <div class="referans-meta"><span class="referans-avatar">K</span> K. Öztürk • Büyükçekmece</div>
-          </div>
-          <div class="referans-card">
-            <p class="referans-text">Yıllardır kurbanımızı Karaağaç Kurban'da kesiyoruz. Hem hijyen hem de güler yüzlü hizmetleri mükemmel. Tartım konusu çok şeffaf, içimiz rahat.</p>
-            <div class="referans-meta"><span class="referans-avatar">M</span> M. Demir • Hadımköy</div>
-          </div>
-          <div class="referans-card">
-            <p class="referans-text">İlk defa bu yıl denedik ve çok memnun kaldık. İslami kurallara harfiyen uyulması çok güven verdi.</p>
-            <div class="referans-meta"><span class="referans-avatar">F</span> F. Şahin • Çatalca</div>
-          </div>
-          <div class="referans-card">
-            <p class="referans-text">Vekalet vererek hissedar buluşmasına katıldık. Söz verdikleri gibi kapak atmış dana kesildi, Hazret-i Allah razı olsun.</p>
-            <div class="referans-meta"><span class="referans-avatar">H</span> H. Çelik • Avcılar</div>
-          </div>
-          <div class="referans-card">
-            <p class="referans-text">Etin parçalanması ve pay edilmesi çok adildi. Kasaplar titizlikle çalışıyordu. Teşekkür ederiz.</p>
-            <div class="referans-meta"><span class="referans-avatar">A</span> A. Kılıç • Beylikdüzü</div>
-          </div>
-          <div class="referans-card">
-            <p class="referans-text">Her sene fiyat ve performans olarak en iyisi. Organizasyon o kadar profesyonel ki, verilen saatte tesis adresine gittiğimizde etlerimiz hazır bekliyordu, hiç oyalanmadan işimizi hallettik.</p>
-            <div class="referans-meta"><span class="referans-avatar">M</span> M. Arslan • Arnavutköy</div>
+      <div class="referans-carousel" role="region" aria-label="Müşteri yorumları — yatay kaydırın veya okları kullanın">
+        <button type="button" class="referans-btn referans-btn-prev" id="referansBtnPrev" aria-label="Önceki yorumlar" disabled>‹</button>
+        <div class="referans-scroller" id="referansScroller" tabindex="0">
+          <div class="referans-track">
+            <div class="referans-card">
+              <p class="referans-text">Kesim anında ismimizin zikredildiğini bizzat duydum. Vekalet süreci çok titiz yürütüldü, içim rahat etti. Allah kabul etsin, emeği geçen herkese teşekkürler.</p>
+              <div class="referans-meta"><span class="referans-avatar">K</span> K. Öztürk • Büyükçekmece</div>
+            </div>
+            <div class="referans-card">
+              <p class="referans-text">Yıllardır kurbanımızı Karaağaç Kurban'da kesiyoruz. Hem hijyen hem de güler yüzlü hizmetleri mükemmel. Tartım konusu çok şeffaf, içimiz rahat.</p>
+              <div class="referans-meta"><span class="referans-avatar">M</span> M. Demir • Hadımköy</div>
+            </div>
+            <div class="referans-card">
+              <p class="referans-text">İlk defa bu yıl denedik ve çok memnun kaldık. İslami kurallara harfiyen uyulması çok güven verdi.</p>
+              <div class="referans-meta"><span class="referans-avatar">F</span> F. Şahin • Çatalca</div>
+            </div>
+            <div class="referans-card">
+              <p class="referans-text">Vekalet vererek hissedar buluşmasına katıldık. Söz verdikleri gibi kapak atmış dana kesildi, Hazret-i Allah razı olsun.</p>
+              <div class="referans-meta"><span class="referans-avatar">H</span> H. Çelik • Avcılar</div>
+            </div>
+            <div class="referans-card">
+              <p class="referans-text">Etin parçalanması ve pay edilmesi çok adildi. Kasaplar titizlikle çalışıyordu. Teşekkür ederiz.</p>
+              <div class="referans-meta"><span class="referans-avatar">A</span> A. Kılıç • Beylikdüzü</div>
+            </div>
+            <div class="referans-card">
+              <p class="referans-text">Her sene fiyat ve performans olarak en iyisi. Organizasyon o kadar profesyonel ki, verilen saatte tesis adresine gittiğimizde etlerimiz hazır bekliyordu, hiç oyalanmadan işimizi hallettik.</p>
+              <div class="referans-meta"><span class="referans-avatar">M</span> M. Arslan • Arnavutköy</div>
+            </div>
           </div>
         </div>
+        <button type="button" class="referans-btn referans-btn-next" id="referansBtnNext" aria-label="Sonraki yorumlar">›</button>
       </div>
       </div>
     </section>
@@ -2564,6 +2581,44 @@
       }
       window.addEventListener('scroll', onScroll, { passive: true });
       onScroll();
+    })();
+    (function referansCarouselNav() {
+      var scroller = document.getElementById('referansScroller');
+      var track = scroller && scroller.querySelector('.referans-track');
+      var btnPrev = document.getElementById('referansBtnPrev');
+      var btnNext = document.getElementById('referansBtnNext');
+      if (!scroller || !track || !btnPrev || !btnNext) return;
+      function stepPx() {
+        var card = track.querySelector('.referans-card');
+        if (!card) return Math.max(120, scroller.clientWidth * 0.85);
+        var gap = parseFloat(getComputedStyle(track).gap) || 24;
+        return card.offsetWidth + gap;
+      }
+      function updateButtons() {
+        var max = scroller.scrollWidth - scroller.clientWidth;
+        var sl = scroller.scrollLeft;
+        var eps = 2;
+        btnPrev.disabled = sl <= eps;
+        btnNext.disabled = max <= eps || sl >= max - eps;
+      }
+      function scrollStep(dir) {
+        var beh = (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) ? 'auto' : 'smooth';
+        scroller.scrollBy({ left: dir * stepPx(), behavior: beh });
+      }
+      btnPrev.addEventListener('click', function() { scrollStep(-1); });
+      btnNext.addEventListener('click', function() { scrollStep(1); });
+      scroller.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') { e.preventDefault(); scrollStep(-1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); scrollStep(1); }
+      });
+      scroller.addEventListener('scroll', updateButtons, { passive: true });
+      window.addEventListener('resize', function() { requestAnimationFrame(updateButtons); }, { passive: true });
+      updateButtons();
+      if (window.ResizeObserver) {
+        var ro = new ResizeObserver(function() { requestAnimationFrame(updateButtons); });
+        ro.observe(scroller);
+        ro.observe(track);
+      }
     })();
     (function scrollAnimations() {
       if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
